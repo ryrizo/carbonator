@@ -5,23 +5,24 @@
 
 if [[ -n $1 && -n $2 && -n $3 ]] #not provide enough parameters to launch carbonator
 then
-	SCHEME=$1
-	FQDN=$2
-	PORT=$3
-	if [[ -n $4 ]]
-	then
-		FOLDER=$4
-	fi
-
+	STATE=$1
+	SCHEME=$2
+	FQDN=$3
+	PORT=$4
 	if [[ -n $5 ]]
 	then
-		EMAIL=$5
-		echo Launching Scan against $1://$2:$3$4 EMailing reports to $5
-		java -jar -Xmx1024m ../burp_suite/burpsuite_pro_v1.6.02.jar $SCHEME $FQDN $PORT $FOLDER
-		echo 'Your scan results are attached to this email. Please visit https://www.integrissecurity.com/index.php?resources=Carbonator for more information.' | mutt -s 'Integris Security Carbonator Results' $5 -a IntegrisSecurity_Carbonator_$1_$2_$3.html && rm IntegrisSecurity_Carbonator_$1_$2_$3.html
+		FOLDER=$5
+	fi
+
+	if [[ -n $6 ]]
+	then
+		EMAIL=$6
+		echo Launching Scan against $1://$2:$3$4 EMailing reports to $6
+		java -jar -Xmx1024m C:/Users/ryan.a.perrizo/burpsuite_pro_v1.6.24.jar $STATE $SCHEME $FQDN $PORT $FOLDER
+		echo 'Your scan results are attached to this email. Please visit https://www.integrissecurity.com/index.php?resources=Carbonator for more information.' | mutt -s 'Integris Security Carbonator Results' $6 -a IntegrisSecurity_Carbonator_$1_$2_$3.html && rm IntegrisSecurity_Carbonator_$1_$2_$3.html
 	else
-		echo Launching Scan against $1://$2:$3$4
-		java -jar -Xmx1024m ../burp_suite/burpsuite_pro_v1.6.02.jar $SCHEME $FQDN $PORT $FOLDER
+		echo Launching Scan against $2://$3:$4$5
+		java -jar -Xmx20g C:/Users/ryan.a.perrizo/burpsuite_pro_v1.6.24.jar $STATE $SCHEME $FQDN $PORT $FOLDER
 	fi
 else
 	echo Usage: $0 scheme fqdn port path email
